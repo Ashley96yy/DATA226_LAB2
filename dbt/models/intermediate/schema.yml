@@ -1,0 +1,118 @@
+version: 2
+
+models:
+  - name: int_daily_returns
+    description: "Daily returns and volatility metrics"
+    
+    columns:
+      - name: SYMBOL
+        tests:
+          - not_null
+      
+      - name: DATE
+        tests:
+          - not_null
+      
+      - name: VOLATILITY_20D
+        description: "20-day rolling volatility"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+              config:
+                where: "VOLATILITY_20D IS NOT NULL"
+
+  - name: int_moving_averages
+    description: "Moving averages for trend analysis"
+    
+    columns:
+      - name: SYMBOL
+        tests:
+          - not_null
+      
+      - name: DATE
+        tests:
+          - not_null
+      
+      - name: MA_CROSS_SIGNAL
+        description: "Golden cross or death cross signal"
+        tests:
+          - accepted_values:
+              values: ['GOLDEN_CROSS', 'DEATH_CROSS', 'NEUTRAL']
+              config:
+                where: "MA_CROSS_SIGNAL IS NOT NULL"
+
+  - name: int_rsi
+    description: "Relative Strength Index (14-day)"
+    
+    columns:
+      - name: SYMBOL
+        tests:
+          - not_null
+      
+      - name: DATE
+        tests:
+          - not_null
+      
+      - name: RSI_14
+        description: "14-day RSI (must be between 0-100)"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "BETWEEN 0 AND 100"
+              config:
+                where: "RSI_14 IS NOT NULL"
+      
+      - name: RSI_SIGNAL
+        description: "RSI signal classification"
+        tests:
+          - accepted_values:
+              values: ['OVERBOUGHT', 'OVERSOLD', 'NEUTRAL']
+              config:
+                where: "RSI_SIGNAL IS NOT NULL"
+
+  - name: int_macd
+    description: "MACD indicator"
+    
+    columns:
+      - name: SYMBOL
+        tests:
+          - not_null
+      
+      - name: DATE
+        tests:
+          - not_null
+      
+      - name: MACD_SIGNAL
+        description: "MACD signal classification"
+        tests:
+          - accepted_values:
+              values: ['BULLISH_CROSSOVER', 'BEARISH_CROSSOVER', 'BULLISH', 'BEARISH', 'NEUTRAL']
+              config:
+                where: "MACD_SIGNAL IS NOT NULL"
+
+  - name: int_bollinger
+    description: "Bollinger Bands"
+    
+    columns:
+      - name: SYMBOL
+        tests:
+          - not_null
+      
+      - name: DATE
+        tests:
+          - not_null
+      
+      - name: BB_UPPER
+        description: "Upper band (must be > middle band)"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "> BB_MIDDLE"
+              config:
+                where: "BB_UPPER IS NOT NULL AND BB_MIDDLE IS NOT NULL"
+      
+      - name: BB_LOWER
+        description: "Lower band (must be < middle band)"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "< BB_MIDDLE"
+              config:
+                where: "BB_LOWER IS NOT NULL AND BB_MIDDLE IS NOT NULL"

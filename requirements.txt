@@ -1,0 +1,9 @@
+apache-airflow-providers-snowflake>=5.0.0
+snowflake-connector-python>=3.0.0
+pandas>=2.0.0
+yfinance>=0.2.0
+statsmodels>=0.14.0
+dbt-core>=1.7.0
+dbt-snowflake>=1.7.0
+sentence-transformers
+pinecone[grpc]

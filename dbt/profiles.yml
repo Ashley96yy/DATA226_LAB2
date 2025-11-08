@@ -1,0 +1,17 @@
+stock_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: TRAINING_ROLE
+      database: ASH_DB
+      warehouse: BEETLE_QUERY_WH
+      schema: STOCK
+      threads: 4
+      client_session_keep_alive: False
+      query_tag: dbt_stock_analytics
+    
+  

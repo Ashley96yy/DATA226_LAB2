@@ -1,0 +1,37 @@
+version: 2
+
+sources:
+  - name: raw
+    database: ASH_DB
+    schema: STOCK
+    description: "Raw stock price data from yfinance ETL pipeline"
+    tables:
+      - name: fact_stock_price_daily
+        description: "Daily stock price data with OHLCV"
+        columns:
+          - name: SYMBOL
+            description: "Stock ticker symbol (e.g., NVDA, AAPL)"
+            tests:
+              - not_null
+          
+          - name: DATE
+            description: "Trading date"
+            tests:
+              - not_null
+          
+          - name: OPEN
+            description: "Opening price"
+          
+          - name: CLOSE
+            description: "Closing price"
+            tests:
+              - not_null
+          
+          - name: MIN
+            description: "Lowest price of the day"
+          
+          - name: MAX
+            description: "Highest price of the day"
+          
+          - name: VOLUME
+            description: "Trading volume"

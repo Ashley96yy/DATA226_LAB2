@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: mart_stock_daily_metrics
+    description: "Daily stock metrics with all technical indicators"
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - SYMBOL
+            - DATE
+    
+    columns:
+      - name: SYMBOL
+        tests:
+          - not_null
+      
+      - name: DATE
+        tests:
+          - not_null
+      
+      - name: CLOSE
+        tests:
+          - not_null
+      
+      - name: PRICE_TREND
+        description: "Overall price trend"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['STRONG_UPTREND', 'UPTREND', 'SIDEWAYS', 'DOWNTREND', 'STRONG_DOWNTREND']
+
