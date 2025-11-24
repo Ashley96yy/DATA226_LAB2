@@ -61,7 +61,7 @@ yfinance API → Airflow (ETL) → Snowflake → dbt (ELT) → Preset Dashboards
 
 1. **Clone repository**
 ```bash
-git clone https://github.com/yourusername/stock-analytics-pipeline.git
+git clone https://github.com/Ashley96yy/DATA226_LAB2.git
 cd stock-analytics-pipeline
 ```
 
